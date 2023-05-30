@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Head from "next/head";
+import Eightballjs from "../components/Eightballjs";
 import type { NextPage } from "next";
 
 type Domain = {
@@ -77,6 +78,7 @@ const Home: NextPage = () => {
           <>{queryResult?.sourceDocuments[0].pageContent}</>
         </div>
       </div>
+      <Eightballjs />
     </>
   );
 };
