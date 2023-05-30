@@ -1,59 +1,83 @@
+import { useEffect, useState } from "react";
 import Head from "next/head";
-import Link from "next/link";
 import type { NextPage } from "next";
-import { BugAntIcon, SparklesIcon } from "@heroicons/react/24/outline";
+
+type Domain = {
+  id: number;
+  concatenated_text: string;
+};
 
 const Home: NextPage = () => {
+  const [data, setData] = useState<Domain[] | null>(null);
+  useEffect(() => {
+    fetch("/api/domains")
+      .then(response => response.json())
+      .then(setData);
+  }, []);
+  console.log(data);
+
+  const [formQuestion, setFormQuestion] = useState("");
+
+  const [queryResult, setQueryResult] = useState<any>(null);
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    fetch("/api/query", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ question: formQuestion }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        setQueryResult(data);
+      });
+  };
+  console.log(queryResult);
   return (
     <>
       <Head>
         <title>Scaffold-ETH 2 App</title>
         <meta name="description" content="Created with 🏗 scaffold-eth-2" />
       </Head>
-
+      <div
+        style={{
+          width: "60%",
+          marginLeft: "20%",
+        }}
+      >
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="query">Question:</label>
+          <input
+            type="text"
+            id="question"
+            name="question"
+            style={{
+              width: "60%",
+              border: "10px solid black",
+              color: "black",
+            }}
+            value={formQuestion}
+            onChange={event => setFormQuestion(event.target.value)}
+          />
+          <button type="submit">Submit</button>
+        </form>
+      </div>
       <div className="flex items-center flex-col flex-grow pt-10">
-        <div className="px-5">
-          <h1 className="text-center mb-8">
-            <span className="block text-2xl mb-2">Welcome to</span>
-            <span className="block text-4xl font-bold">Scaffold-ETH 2</span>
-          </h1>
-          <p className="text-center text-lg">
-            Get started by editing{" "}
-            <code className="italic bg-base-300 text-base font-bold">packages/nextjs/pages/index.tsx</code>
-          </p>
-          <p className="text-center text-lg">
-            Edit your smart contract <code className="italic bg-base-300 text-base font-bold">YourContract.sol</code> in{" "}
-            <code className="italic bg-base-300 text-base font-bold">packages/hardhat/contracts</code>
-          </p>
-        </div>
-
-        <div className="flex-grow bg-base-300 w-full mt-16 px-8 py-12">
-          <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
-            <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
-              <BugAntIcon className="h-8 w-8 fill-secondary" />
-              <p>
-                Tinker with your smart contract using the{" "}
-                <Link href="/debug" passHref className="link">
-                  Debug Contract
-                </Link>{" "}
-                tab.
-              </p>
-            </div>
-            <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
-              <SparklesIcon className="h-8 w-8 fill-secondary" />
-              <p>
-                Experiment with{" "}
-                <Link href="/example-ui" passHref className="link">
-                  Example UI
-                </Link>{" "}
-                to build your own UI.
-              </p>
-            </div>
-          </div>
+        <div
+          className="flex items-center flex-col flex-grow pt-10"
+          style={{
+            width: "60%",
+            border: "10px solid black",
+          }}
+        >
+          {queryResult && <div>{queryResult.text}</div>}
+          <br />
+          <>{queryResult?.sourceDocuments[0].pageContent}</>
         </div>
       </div>
     </>
   );
 };
-
 export default Home;

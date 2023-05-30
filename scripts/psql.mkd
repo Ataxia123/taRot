@@ -1,0 +1,15 @@
+For Domain table:
+
+sql
+Copy code
+\copy public."Domain"("id", "domainName") FROM '/tmp/l1.csv' CSV HEADER;
+For Subdomain table:
+
+sql
+Copy code
+\copy public."Subdomain"("id", "subdomainName", "domainId") FROM '/tmp/l2.csv' CSV HEADER;
+For QAPairs table:
+
+sql
+Copy code
+\copy public."QAPairs"("id", "question", "answer", "subdomainId") FROM '/tmp/l3.csv' CSV HEADER;

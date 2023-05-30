@@ -22,12 +22,23 @@ model Post {
 }
 
 model Domain {
-  id          Int     @id @default(autoincrement())
-  Dominio     String?
-  Descripcion String?
-  Ambito      String?
-  Pregunta    String?
-  Respuesta   String?
+  id          Int          @id @default(autoincrement())
+  domainName  String       @db.VarChar(255)
+  subdomains  Subdomain[]
+}
 
-  @@map("domains")
+model Subdomain {
+  id          Int          @id @default(autoincrement())
+  subdomainName String     @db.VarChar(255)
+  domainId    Int
+  domain      Domain       @relation(fields: [domainId], references: [id])
+  qaPairs     QAPairs[]
+}
+
+model QAPairs {
+  id          Int          @id @default(autoincrement())
+  question    String       @db.VarChar(255)
+  answer      String       @db.VarChar(1000)
+  subdomainId Int
+  subdomain   Subdomain    @relation(fields: [subdomainId], references: [id])
 }

@@ -9,6 +9,7 @@
     ]
   },
   "scripts": {
+    "seed": "node prisma/seed.js",
     "account": "yarn workspace @se-2/hardhat account",
     "chain": "yarn workspace @se-2/hardhat chain",
     "fork": "yarn workspace @se-2/hardhat fork",
@@ -30,7 +31,23 @@
   },
   "packageManager": "yarn@3.2.3",
   "devDependencies": {
+    "@types/d3-dsv": "^2",
+    "@types/pg": "^8",
     "husky": "^8.0.1",
-    "lint-staged": "^13.0.3"
+    "lint-staged": "^13.0.3",
+    "prisma": "^4.14.1"
+  },
+  "dependencies": {
+    "@pinecone-database/pinecone": "^0.1.6",
+    "@prisma/client": "^4.14.1",
+    "d3-dsv": "2",
+    "dotenv": "^16.0.3",
+    "langchain": "^0.0.84",
+    "pg": "^8.11.0",
+    "reflect-metadata": "^0.1.13",
+    "typeorm": "^0.3.16"
+  },
+  "prisma": {
+    "seed": "node prisma/seed.js"
   }
 }
