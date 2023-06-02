@@ -78,7 +78,7 @@ const Home: NextPage = () => {
           <>{queryResult?.sourceDocuments[0].pageContent}</>
         </div>
       </div>
-      <Eightballjs />
+      <Eightballjs response={queryResult ? queryResult.text : "Thinking"} />
     </>
   );
 };
