@@ -1,6 +1,11 @@
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
-import { BufferGeometryUtils } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
+let BufferGeometryUtils;
+
+if (typeof window !== "undefined") {
+    BufferGeometryUtils = require('three/examples/jsm/utils/BufferGeometryUtils.js').BufferGeometryUtils;
+}
+
 
 const ThreeScene = (response) => {
 // Create a ref for the container div.
@@ -28,14 +33,14 @@ loader.load('fonts/Roboto_Regular.json', function(font) {
     textLines.forEach((line) => {
         var geometry = new THREE.TextGeometry(line, {
             font: font,
-            size: 20,
+            size: 16,
             height: 5,
-            curveSegments: 12,
+            curveSegments: 10,
             bevelEnabled: true,
-            bevelThickness: 1,
-            bevelSize: 1,
+            bevelThickness: 0.5,
+            bevelSize: 0.1,
             bevelOffset: 0,
-            bevelSegments: 5
+            bevelSegments: 4
         });
         geometry.translate(0, y, 0);
         geometries.push(geometry);
@@ -46,7 +51,7 @@ loader.load('fonts/Roboto_Regular.json', function(font) {
     var material = new THREE.MeshBasicMaterial({ color: "red" });
     var text = new THREE.Mesh(singleGeometry, material);
     scene.add(text);
-    text.position.set(-80, 30, 120);
+    text.position.set(-90, 30, 120);
 });
 
 

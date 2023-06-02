@@ -18,6 +18,7 @@ const Home: NextPage = () => {
   console.log(data);
 
   const [formQuestion, setFormQuestion] = useState("");
+  const [responseLanguage, setResponseLanguage] = useState("");
 
   const [queryResult, setQueryResult] = useState<any>(null);
 
@@ -28,7 +29,7 @@ const Home: NextPage = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ question: formQuestion }),
+      body: JSON.stringify({ question: formQuestion, language: responseLanguage }),
     })
       .then(response => response.json())
       .then(data => {
@@ -62,6 +63,20 @@ const Home: NextPage = () => {
             value={formQuestion}
             onChange={event => setFormQuestion(event.target.value)}
           />
+          <br />
+          <label htmlFor="query">Language:</label>
+          <input
+            type="text"
+            id="language"
+            name="language"
+            style={{
+              width: "60%",
+              border: "10px solid black",
+              color: "black",
+            }}
+            value={responseLanguage}
+            onChange={event => setResponseLanguage(event.target.value)}
+          />
           <button type="submit">Submit</button>
         </form>
       </div>
@@ -73,12 +88,12 @@ const Home: NextPage = () => {
             border: "10px solid black",
           }}
         >
-          {queryResult && <div>{queryResult.text}</div>}
-          <br />
-          <>{queryResult?.sourceDocuments[0].pageContent}</>
+          <Eightballjs response={queryResult ? queryResult.text : "Thinking"} />
         </div>
       </div>
-      <Eightballjs response={queryResult ? queryResult.text : "Thinking"} />
+      {queryResult && <div>{queryResult.text}</div>}
+      <br />
+      <>{queryResult?.sourceDocuments[0].pageContent}</>
     </>
   );
 };
