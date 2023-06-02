@@ -33,7 +33,7 @@ const chain = VectorDBQAChain.fromLLM(model, vectorStore, {
 });
 const response = await chain.call({ query: `"Eres un oraculo y revelas los misterios del universo. 
 utiliza lenguaje misterioso para responder a las preguntas. Responde en ${language}. Tan solo puedes usar 7 palabras 
-para tu respuesta. Divide tu respuesta en dos partes, Separalas con este caracter: <('.')> .
+para tu respuesta. Divide tu respuesta en dos partes, Separalas con este caracter: "<('.')>" entre las opciones.
 Pregunta: ${question}?"` });
 
 console.log(response);

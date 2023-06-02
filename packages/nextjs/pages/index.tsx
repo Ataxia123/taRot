@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Head from "next/head";
+import Image from "next/image";
 import Eightballjs from "../components/Eightballjs";
 import type { NextPage } from "next";
 
@@ -19,7 +20,7 @@ const Home: NextPage = () => {
 
   const [formQuestion, setFormQuestion] = useState("");
   const [responseLanguage, setResponseLanguage] = useState("");
-
+  const [trigger, setTrigger] = useState(false);
   const [queryResult, setQueryResult] = useState<any>(null);
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -34,22 +35,46 @@ const Home: NextPage = () => {
       .then(response => response.json())
       .then(data => {
         setQueryResult(data);
+        setTrigger(true);
       });
   };
   console.log(queryResult);
+
   return (
     <>
       <Head>
         <title>Scaffold-ETH 2 App</title>
         <meta name="description" content="Created with 🏗 scaffold-eth-2" />
       </Head>
+      <Image
+        src="/assets/frame.png"
+        alt="8ball"
+        width={2400}
+        height={1500}
+        style={{
+          marginLeft: "-0%",
+          marginTop: "-10%",
+          width: "110%",
+          position: "absolute",
+          height: "150%",
+          overflow: "hidden",
+        }}
+      />
       <div
         style={{
           width: "60%",
           marginLeft: "20%",
+          zIndex: 1,
         }}
       >
-        <form onSubmit={handleSubmit}>
+        <form
+          onSubmit={handleSubmit}
+          style={{
+            marginLeft: "23%",
+            marginTop: "61%",
+            position: "absolute",
+          }}
+        >
           <label htmlFor="query">Question:</label>
           <input
             type="text"
@@ -77,7 +102,19 @@ const Home: NextPage = () => {
             value={responseLanguage}
             onChange={event => setResponseLanguage(event.target.value)}
           />
-          <button type="submit">Submit</button>
+          <br />
+          <button
+            type="submit"
+            style={{
+              width: "60%",
+              backdropFilter: "blur(10px)",
+              border: "10px solid black",
+              color: "black",
+              marginLeft: "22%",
+            }}
+          >
+            Submit
+          </button>
         </form>
       </div>
       <div className="flex items-center flex-col flex-grow pt-10">
@@ -88,12 +125,9 @@ const Home: NextPage = () => {
             border: "10px solid black",
           }}
         >
-          <Eightballjs response={queryResult ? queryResult.text : "Thinking"} />
+          <Eightballjs response={queryResult ? queryResult.text : "Thinking"} trigger={trigger} />
         </div>
       </div>
-      {queryResult && <div>{queryResult.text}</div>}
-      <br />
-      <>{queryResult?.sourceDocuments[0].pageContent}</>
     </>
   );
 };
