@@ -1,16 +1,11 @@
-import { PrismaClient } from "@prisma/client";
+
 import { CSVLoader } from "langchain/document_loaders/fs/csv";
 import { PineconeClient } from "@pinecone-database/pinecone";
 import * as dotenv from "dotenv";
-import { Document } from "langchain/document";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { PineconeStore } from "langchain/vectorstores/pinecone";
 
 dotenv.config();
-
-
-
-const prisma = new PrismaClient();
 
 const loader = new CSVLoader("../../l.csv");
 

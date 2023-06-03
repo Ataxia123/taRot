@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE "QAPairs" ALTER COLUMN "answer" SET DATA TYPE VARCHAR(1000);
