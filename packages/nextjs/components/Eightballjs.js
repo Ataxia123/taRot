@@ -48,7 +48,7 @@ loader.load('fonts/Roboto_Regular.json', function(font) {
     });
 
     var singleGeometry = BufferGeometryUtils.mergeBufferGeometries(geometries);
-    var material = new THREE.MeshBasicMaterial({ color: "red" });
+    var material = new THREE.MeshBasicMaterial({ color: "yellow" });
     var text = new THREE.Mesh(singleGeometry, material);
     scene.add(text);
     text.position.set(-90, 30, 120);
